@@ -10,7 +10,15 @@ import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Star, ChevronRight, Truck, ShieldCheck, RefreshCcw } from 'lucide-react';
+import { getProducts } from '@/lib/db'  // or whatever returns your full list
 
+// Next.js will statically emit one page per { slug }
+export async function generateStaticParams() {
+  const products = getProducts()
+  return products.map((p: any) => ({
+    slug: p.slug,
+  }))
+}
 export default function ProductPage({ params }: { params: { slug: string } }) {
   const product = getProductBySlug(params.slug);
   
